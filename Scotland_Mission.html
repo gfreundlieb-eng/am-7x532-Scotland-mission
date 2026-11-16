@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>Scotland Mission</title>
+<style>
+:root{
+  --navy:#16324f; --loch:#1f5f8b; --sea:#bfe0ee; --heather:#7a4b94; --heather-d:#5c3572;
+  --green:#2f6b4f; --green-l:#dcefe2; --sand:#f6efdf; --paper:#fffdf7; --ink:#1d2733;
+  --gold:#e0a526; --red:#b3372f; --red-l:#fbe3e0; --line:#d8cfba; --ok:#1f7a4d;
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--sand);color:var(--ink);font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3{font-family:"Trebuchet MS","Avenir Next",system-ui,sans-serif;line-height:1.2;margin:0 0 .4em;color:var(--navy)}
+h1{font-size:1.7rem} h2{font-size:1.35rem} h3{font-size:1.1rem}
+p{margin:.4em 0}
+.de{color:#4d5a68;font-size:.9em}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.top{position:sticky;top:0;z-index:20;color:#fff;
+  background:
+   repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 6px,transparent 6px 28px,rgba(224,165,38,.35) 28px 31px,transparent 31px 56px),
+   repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 6px,transparent 6px 28px,rgba(224,165,38,.25) 28px 31px,transparent 31px 56px),
+   var(--navy);
+  padding:calc(8px + env(safe-area-inset-top)) 12px 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top .brand{font:700 1.15rem "Trebuchet MS",system-ui,sans-serif;margin-right:auto;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pill{background:rgba(0,0,0,.35);border-radius:999px;padding:4px 12px;font-size:.9rem;white-space:nowrap}
+.tbtn{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;min-height:40px;padding:4px 14px;font-size:.9rem}
+.tbtn[aria-pressed="true"]{background:var(--gold);color:#1d2733;border-color:var(--gold)}
+main{max-width:1060px;margin:0 auto;padding:14px 12px 40px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:0 2px 0 rgba(22,50,79,.08);margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:10px 22px;border-radius:14px;border:2px solid var(--navy);
+  background:var(--navy);color:#fff;font-weight:700;font-size:1.05rem}
+.btn.alt{background:#fff;color:var(--navy)}
+.btn.go{background:var(--green);border-color:var(--green)}
+.btn.hot{background:var(--heather);border-color:var(--heather)}
+.btn.small{min-height:44px;padding:6px 14px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.end{justify-content:flex-end}
+.banner{background:#fff3cd;border:2px solid #d39e00;border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:.95rem}
+.field{width:100%;font:inherit;font-size:1.25rem;padding:12px 14px;border:2px solid var(--navy);border-radius:12px;background:#fff;color:var(--ink);min-height:54px}
+label{font-weight:700;display:block;margin-bottom:6px}
+
+/* map */
+.maplay{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:760px){.maplay{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:start}}
+.mapbox{background:var(--sea);border-radius:var(--r);border:1px solid var(--line);overflow:hidden}
+.mapbox svg{display:block;width:100%;height:auto;max-height:78vh}
+.mk{cursor:pointer}
+.stations{display:grid;gap:10px}
+.st{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;min-height:76px;
+  background:var(--paper);border:2px solid var(--line);border-radius:var(--r);padding:10px 14px}
+.st:hover{border-color:var(--loch)}
+.st .num{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 1.3rem "Trebuchet MS",sans-serif;color:#fff;background:var(--loch)}
+.st.s2 .num{background:var(--green)} .st.s3 .num{background:var(--heather)} .st.fin .num{background:var(--red)} .st.tr .num{background:var(--gold);color:#1d2733}
+.st b{display:block;font-size:1.1rem;color:var(--navy)}
+.st small{color:#4d5a68}
+.st .state{font-size:.85rem;font-weight:700;color:var(--green);white-space:nowrap}
+.st.fin{border-color:var(--red);background:#fff8f6}
+.pass{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.stamp{width:76px;height:76px;border-radius:50%;border:3px dashed #b9ad92;display:grid;place-items:center;color:#b9ad92;font-size:.62rem;text-align:center;line-height:1.1}
+.stamp.got{border:3px double var(--heather);color:var(--heather);transform:rotate(-8deg);background:#f5ecfa;font-weight:700}
+.stamp.got.g1{border-color:var(--loch);color:var(--loch);background:#e6f2f9}
+.stamp.got.g2{border-color:var(--green);color:var(--green);background:var(--green-l);transform:rotate(6deg)}
+details.plan{font-size:.95rem} details.plan summary{cursor:pointer;font-weight:700;min-height:40px;display:flex;align-items:center}
+
+/* tasks */
+.bar{height:12px;background:#e6dcc6;border-radius:99px;overflow:hidden;margin:6px 0 12px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--loch),var(--green));border-radius:99px;transition:width .3s}
+.taskhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.q{font-size:1.3rem;font-weight:700;color:var(--navy);margin:.3em 0 .6em}
+.gap{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--navy);text-align:center;padding:0 6px;color:var(--ok)}
+mark{background:#ffe9a8;border-radius:6px;padding:0 4px}
+.opts{display:grid;gap:10px;grid-template-columns:1fr}
+@media (min-width:560px){.opts.two{grid-template-columns:1fr 1fr}}
+.opt{min-height:56px;padding:10px 14px;border-radius:14px;border:2px solid var(--loch);background:#fff;font-size:1.08rem;text-align:left;width:100%}
+.opt.sel{background:#e3f0f8;border-width:3px;border-color:var(--navy);font-weight:700}
+.opt.right{background:var(--green-l);border-color:var(--ok);font-weight:700}
+.opt.wrongo{background:var(--red-l);border-color:var(--red);opacity:.6;text-decoration:line-through}
+.opt:disabled{cursor:default}
+.matchgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.matchgrid .col{display:grid;gap:10px;align-content:start}
+.fb{border-radius:12px;padding:10px 14px;margin:12px 0;font-weight:600}
+.fb.ok{background:var(--green-l);border:2px solid var(--ok);color:#12492f}
+.fb.no{background:var(--red-l);border:2px solid var(--red);color:#6d1f1a}
+.fb.info{background:#eef3f8;border:2px solid var(--loch);color:var(--navy)}
+.fb small{display:block;font-weight:400}
+.hintpat{font:700 1.3rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pop{animation:pop .5s}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.plane{animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.calm *, .calm *::before{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* check */
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.dot{width:42px;height:42px;border-radius:10px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:.95rem}
+.dot.a{background:var(--green-l);border-color:var(--ok)}
+.dot.cur{outline:3px solid var(--navy)}
+.ovl{width:100%;border-collapse:collapse;font-size:.98rem}
+.ovl th,.ovl td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;word-break:break-word}
+.ovl tr.open td{background:#fff3cd}
+.ovl td:first-child{white-space:nowrap}
+@media (max-height:520px){.top{position:static}}
+.tag{display:inline-block;border-radius:6px;padding:1px 8px;font-size:.8rem;font-weight:700}
+.tag.ok{background:var(--green-l);color:#12492f}.tag.no{background:var(--red-l);color:#6d1f1a}.tag.op{background:#fff3cd;color:#6b5200}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin:10px 0}
+.score div{background:#eef3f8;border-radius:12px;padding:10px 6px}
+.score b{display:block;font-size:1.5rem;color:var(--navy)}
+.rules li{margin:.35em 0}
+.overlay{position:fixed;inset:0;background:rgba(15,25,40,.6);z-index:50;display:grid;place-items:center;padding:16px}
+.modal{background:var(--paper);border-radius:var(--r);padding:20px;max-width:520px;width:100%;max-height:90vh;overflow:auto}
+.printonly{display:none}
+@media print{
+  .top,.noprint,.overlay{display:none!important}
+  body{background:#fff;font-size:12pt}
+  .card{border:none;box-shadow:none;padding:0}
+  .printonly{display:block}
+}
+@media (max-width:420px){body{font-size:17px}.btn{padding:10px 16px}.st{grid-template-columns:48px 1fr;}.st .state{grid-column:2}}
+</style>
+</head>
+<body>
+<div id="top" class="top"></div>
+<main id="app" aria-live="polite"></main>
+<noscript><p style="padding:20px">Diese App braucht JavaScript. Öffne sie über den Link deiner Lehrkraft im Browser (Safari).</p></noscript>
+<script>
+/* Scotland Mission – gemeinsame Test- und Bewertungslogik (in beiden Dateien identisch eingebettet) */
+var SM = (function () {
+  'use strict';
+  var APP_VERSION = '1.0.0';
+  var TEST_VERSION = 'SM-U2-CHECK-1';
+  var FORMAT = 'scotland-mission-result';
+  var FORMAT_VERSION = 1;
+
+  /* Schritt 1: Leerzeichen und Apostrophe vereinheitlichen (Gross-/Kleinschreibung bleibt erhalten) */
+  function norm(s) {
+    return String(s == null ? '' : s)
+      .replace(/[‘’‚‛ʼ´`′]/g, "'")
+      .replace(/[\s ]+/g, ' ')
+      .trim();
+  }
+  /* Schritt 2: Vergleichsschluessel – ein Punkt am Ende (iPad-Doppelleerzeichen) entfaellt, Kleinschreibung */
+  function stripDot(s) { return norm(s).replace(/\s*\.+$/, '').trim(); }
+  function key(s) { return stripDot(s).toLowerCase(); }
+
+  function noun(w) {
+    var art = /^[aeiou]/i.test(w) ? 'an ' : 'a ';
+    return [w, 'the ' + w, art + w];
+  }
+  function verb(w) { return [w, 'to ' + w]; }
+
+  var CHECK = [
+    { id: 'v01', type: 'tr', area: 'vocab', de: 'die Insel', expected: 'island', accept: noun('island') },
+    { id: 'v02', type: 'tr', area: 'vocab', de: 'bewohnt', expected: 'inhabited', accept: ['inhabited'] },
+    { id: 'v03', type: 'tr', area: 'vocab', de: 'die Ebbe', expected: 'low tide', accept: ['low tide', 'the low tide'] },
+    { id: 'v04', type: 'tr', area: 'vocab', de: 'die Helden (Plural – mehrere)', expected: 'heroes', accept: ['heroes', 'the heroes'] },
+    { id: 'v05', type: 'tr', area: 'vocab', de: 'besiegen', expected: 'to defeat', accept: verb('defeat') },
+    { id: 'v06', type: 'tr', area: 'vocab', de: 'unabhängig', expected: 'independent', accept: ['independent'] },
+    { id: 'v07', type: 'tr', area: 'vocab', de: 'schottisch', expected: 'Scottish', accept: ['scottish'], cap: 'Scottish' },
+    { id: 'v08', type: 'tr', area: 'vocab', de: 'der Dudelsack', expected: 'bagpipes', accept: ['bagpipes', 'the bagpipes'] },
+    { id: 'v09', type: 'tr', area: 'vocab', de: 'stattfinden', expected: 'to take place', accept: verb('take place') },
+    { id: 'v10', type: 'tr', area: 'vocab', de: 'wegen', expected: 'because of', accept: ['because of'] },
+    { id: 'v11', type: 'tr', area: 'vocab', de: 'der Erfinder, die Erfinderin', expected: 'inventor', accept: noun('inventor') },
+    { id: 'v12', type: 'tr', area: 'vocab', de: 'die Mitternacht', expected: 'midnight', accept: ['midnight'] },
+    { id: 'g01', type: 'gap', area: 'vocab', sentence: 'At low tide the planes can ___ from the beach.', de: 'abheben, starten', expected: 'take off', accept: ['take off'] },
+    { id: 'g02', type: 'gap', area: 'vocab', sentence: 'The school concert is the biggest ___ of the year.', de: 'die Veranstaltung', expected: 'event', accept: ['event'] },
+    { id: 'g03', type: 'gap', area: 'vocab', sentence: 'Many people have jobs in the oil ___.', de: 'die Industrie', expected: 'industry', accept: ['industry'] },
+    { id: 'f01', type: 'mc', area: 'facts', q: 'What is the capital of Scotland?', correct: 'a',
+      options: [{ id: 'a', t: 'Edinburgh' }, { id: 'b', t: 'Glasgow' }, { id: 'c', t: 'London' }, { id: 'd', t: 'Cardiff' }] },
+    { id: 'f02', type: 'mc', area: 'facts', q: 'Scotland is part of …', correct: 'a',
+      options: [{ id: 'a', t: 'the United Kingdom (UK)' }, { id: 'b', t: 'Ireland' }, { id: 'c', t: 'the USA' }, { id: 'd', t: 'France' }] },
+    { id: 'f03', type: 'mc', area: 'facts', q: 'What is Ben Nevis?', correct: 'a',
+      options: [{ id: 'a', t: 'the highest mountain in the UK' }, { id: 'b', t: 'a Scottish hero' }, { id: 'c', t: 'a loch with a monster' }, { id: 'd', t: 'the capital of Scotland' }] },
+    { id: 'f04', type: 'mc', area: 'facts', q: 'Where do planes land on the island of Barra?', correct: 'a',
+      options: [{ id: 'a', t: 'on the beach' }, { id: 'b', t: 'on a loch' }, { id: 'c', t: 'on a mountain' }, { id: 'd', t: 'on a bridge' }] },
+    { id: 'f05', type: 'mc', area: 'facts', q: 'What are the Highland Games?', correct: 'a',
+      options: [{ id: 'a', t: 'a sports event' }, { id: 'b', t: 'a New Year’s Eve tradition' }, { id: 'c', t: 'a boat trip on Loch Ness' }, { id: 'd', t: 'a museum in Edinburgh' }] }
+  ];
+  var BY_ID = {};
+  CHECK.forEach(function (it) { BY_ID[it.id] = it; });
+  var MAX = { vocab: 15, facts: 5, total: 20 };
+
+  function optionText(item, optId) {
+    for (var i = 0; i < item.options.length; i++) if (item.options[i].id === optId) return item.options[i].t;
+    return '';
+  }
+  function expectedText(item) {
+    if (item.type === 'mc') return optionText(item, item.correct);
+    if (item.type === 'tr' && item.accept.length > 1) {
+      return item.expected + ' (auch: ' + item.accept.filter(function (a) { return a !== item.expected.toLowerCase(); }).join(', ') + ')';
+    }
+    return item.expected;
+  }
+  function promptText(item) {
+    if (item.type === 'mc') return item.q;
+    if (item.type === 'gap') return item.sentence + ' [' + item.de + ']';
+    return item.de;
+  }
+
+  /* Bewertet genau eine Aufgabe aus der unveraenderten Originaleingabe. */
+  function scoreItem(item, raw) {
+    var r = { status: 'open', points: 0, note: '' };
+    if (item.type === 'mc') {
+      if (raw == null || raw === '') return r;
+      if (raw === item.correct) { r.status = 'correct'; r.points = 1; } else r.status = 'wrong';
+      return r;
+    }
+    var k = key(raw);
+    if (k === '') return r;
+    if (item.accept.indexOf(k) !== -1) {
+      r.status = 'correct'; r.points = 1;
+      if (item.cap && norm(raw).indexOf(item.cap) === -1) {
+        r.note = 'Schreibhinweis: „' + item.cap + '“ wird großgeschrieben (kein Punktabzug).';
+      }
+    } else r.status = 'wrong';
+    return r;
+  }
+
+  /* Bewertet einen ganzen Versuch. answers: Liste {id, raw}. Rechnet immer aus den Originaleingaben. */
+  function scoreAttempt(answers) {
+    var map = {};
+    (answers || []).forEach(function (a) { if (a && typeof a.id === 'string' && !(a.id in map)) map[a.id] = a.raw; });
+    var out = { items: [], vocab: 0, facts: 0, total: 0 };
+    CHECK.forEach(function (item) {
+      var raw = Object.prototype.hasOwnProperty.call(map, item.id) ? map[item.id] : null;
+      var s = scoreItem(item, raw);
+      out.items.push({ id: item.id, area: item.area, type: item.type, raw: raw, status: s.status, auto: s.points, note: s.note });
+      out[item.area] += s.points;
+    });
+    out.total = out.vocab + out.facts;
+    return out;
+  }
+
+  function isIso(s) { return typeof s === 'string' && s.length <= 40 && !isNaN(Date.parse(s)); }
+
+  /* Prueft eine importierte Ergebnisdatei und liefert eine bereinigte Kopie nur mit bekannten Feldern. */
+  function validateResult(o) {
+    function bad(m) { return { ok: false, error: m }; }
+    if (!o || typeof o !== 'object' || Array.isArray(o)) return bad('Die Datei enthält kein Ergebnisobjekt.');
+    if (o.format !== FORMAT) return bad('Das ist keine Scotland-Mission-Ergebnisdatei (Kennzeichen „format“ fehlt oder ist falsch).');
+    if (o.formatVersion !== FORMAT_VERSION) return bad('Unbekannte Dateiversion (' + String(o.formatVersion).slice(0, 20) + ').');
+    if (o.testVersion !== TEST_VERSION) return bad('Andere Testversion (' + String(o.testVersion).slice(0, 30) + ' statt ' + TEST_VERSION + ').');
+    if (typeof o.studentCode !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,15}$/.test(o.studentCode)) return bad('Schülercode fehlt oder hat ein ungültiges Format.');
+    if (typeof o.attemptId !== 'string' || !/^[A-Za-z0-9_-]{4,64}$/.test(o.attemptId)) return bad('Versuchskennung fehlt oder ist ungültig.');
+    if (!isIso(o.startedAt) || !isIso(o.submittedAt)) return bad('Start- oder Abgabezeit fehlt oder ist kein gültiges Datum.');
+    if (!Array.isArray(o.answers) || o.answers.length > 60) return bad('Die Antwortliste fehlt oder ist ungültig.');
+    var answers = [], seen = {};
+    for (var i = 0; i < o.answers.length; i++) {
+      var a = o.answers[i];
+      if (!a || typeof a !== 'object' || typeof a.id !== 'string') return bad('Antwort ' + (i + 1) + ' ist beschädigt.');
+      if (!BY_ID[a.id]) return bad('Unbekannte Aufgabenkennung in Antwort ' + (i + 1) + '.');
+      if (seen[a.id]) return bad('Aufgabe ' + a.id + ' kommt mehrfach vor.');
+      if (a.raw !== null && typeof a.raw !== 'string') return bad('Antwort zu ' + a.id + ' ist kein Text.');
+      if (a.raw !== null && a.raw.length > 200) return bad('Antwort zu ' + a.id + ' ist unplausibel lang.');
+      seen[a.id] = true;
+      answers.push({ id: a.id, raw: a.raw });
+    }
+    var order = [];
+    if (Array.isArray(o.order)) o.order.slice(0, 60).forEach(function (x) { if (typeof x === 'string' && BY_ID[x]) order.push(x); });
+    var clean = {
+      format: FORMAT, formatVersion: FORMAT_VERSION,
+      appVersion: typeof o.appVersion === 'string' ? o.appVersion.slice(0, 20) : '',
+      testVersion: TEST_VERSION,
+      studentCode: o.studentCode.toUpperCase(),
+      attemptId: o.attemptId,
+      attemptNoOnDevice: (typeof o.attemptNoOnDevice === 'number' && isFinite(o.attemptNoOnDevice)) ? Math.round(o.attemptNoOnDevice) : null,
+      startedAt: new Date(o.startedAt).toISOString(),
+      submittedAt: new Date(o.submittedAt).toISOString(),
+      order: order, answers: answers
+    };
+    return { ok: true, clean: clean };
+  }
+  function fingerprint(clean) {
+    var a = clean.answers.slice().sort(function (x, y) { return x.id < y.id ? -1 : 1; });
+    return JSON.stringify([clean.studentCode, clean.attemptId, clean.startedAt, clean.submittedAt, clean.order, a]);
+  }
+
+  return {
+    APP_VERSION: APP_VERSION, TEST_VERSION: TEST_VERSION, FORMAT: FORMAT, FORMAT_VERSION: FORMAT_VERSION,
+    CHECK: CHECK, BY_ID: BY_ID, MAX: MAX,
+    norm: norm, key: key, stripDot: stripDot, noun: noun, verb: verb,
+    scoreItem: scoreItem, scoreAttempt: scoreAttempt, validateResult: validateResult, fingerprint: fingerprint,
+    optionText: optionText, expectedText: expectedText, promptText: promptText
+  };
+})();
+if (typeof module !== 'undefined') module.exports = SM;
+
+</script>
+<script>
+(function () {
+'use strict';
+
+/* ---------- Wortschatz (33 Eintraege; hero/heroes als Singular- und Pluralaufgabe) ---------- */
+var W = [
+ {id:'island',en:'island',de:'die Insel',t:'n',s:'Barra is a small ___ in the sea.',d:['valley','loch','event']},
+ {id:'few',en:'few',de:'wenige',t:'x',s:'Only very ___ people live here – just ten!',d:['Scottish','independent','inhabited'],ctx:1},
+ {id:'inhabited',en:'inhabited',de:'bewohnt',t:'x',s:'People live on this island, so it is ___.',d:['independent','few','Scottish'],ctx:1},
+ {id:'travel',en:'to travel',base:'travel',de:'reisen, fahren',t:'v',s:'Next summer we want to ___ to Scotland by train.',d:['invent','defeat','take place']},
+ {id:'takeoff',en:'to take off',base:'take off',de:'starten, abheben, durchstarten, ausziehen',tp:'abheben, starten (Flugzeug) – 2 Wörter',t:'v',s:'Fasten your seat belts! The plane is ready to ___.',d:['take place','invent','defeat']},
+ {id:'lowtide',en:'low tide',de:'die Ebbe',tp:'die Ebbe (2 Wörter)',t:'n',s:'At ___ the sea goes back and the beach gets very big.',d:['wind','valley','industry'],ctx:1},
+ {id:'hero',en:'hero',de:'der Held',tp:'der Held (Singular – nur einer)',t:'n',s:'William Wallace is a Scottish ___.',d:['heroes','valley','fire'],mde:'der Held, die Helden',men:'hero, heroes'},
+ {id:'heroes',en:'heroes',de:'die Helden',tp:'die Helden (Plural – mehrere)',t:'n',s:'Wallace and Bruce are two Scottish ___.',d:['hero','monster','kilt'],nomatch:1},
+ {id:'defeat',en:'to defeat',base:'defeat',de:'besiegen',t:'v',s:'Our team is strong. We can ___ the other team!',d:['travel','take place','invent'],ctx:1},
+ {id:'english',en:'the English',de:'die Engländer',tp:'die Engländer (2 Wörter)',t:'x',cap:'English',s:'Long ago the Scots fought against ___.',d:['the bagpipes','the valley','the telephone']},
+ {id:'independent',en:'independent',de:'unabhängig',t:'x',s:'The heroes wanted a free and ___ Scotland.',d:['few','sports','because of'],ctx:1},
+ {id:'scottish',en:'Scottish',de:'schottisch, Schottisch, aus Schottland',tp:'schottisch',t:'x',cap:'Scottish',s:'Edinburgh is in Scotland. It is a ___ city.',d:['few','because of','midnight']},
+ {id:'tradition',en:'tradition',de:'die Tradition',t:'n',s:'Wearing a kilt is an old Scottish ___.',d:['telephone','valley','island']},
+ {id:'bagpipes',en:'bagpipes',de:'der Dudelsack',t:'n',pl:1,s:'Listen! Someone is playing the ___. What a loud instrument!',d:['kilt','valley','oil']},
+ {id:'kilt',en:'kilt',de:'der Schottenrock, der Kilt',t:'n',s:'At the Highland Games many men wear a ___.',d:['loch','fire','wind']},
+ {id:'sports',en:'sports',de:'Sport- (wie in „Sportveranstaltung“)',t:'n',typeEn:'sports event',tp:'die Sportveranstaltung (2 Wörter)',s:'Running, jumping, throwing: the Highland Games are a big ___ event.',d:['oil','gas','low tide']},
+ {id:'event',en:'event',de:'die Veranstaltung, das Ereignis',t:'n',s:'The school concert is the biggest ___ of the year.',d:['valley','inventor','island']},
+ {id:'takeplace',en:'to take place',base:'take place',de:'stattfinden',tp:'stattfinden (2 Wörter)',t:'v',s:'The Highland Games ___ every summer.',d:['take off','defeat','invent'],ctx:1},
+ {id:'becauseof',en:'because of',de:'wegen',tp:'wegen (2 Wörter)',t:'x',s:'We stayed inside ___ the rain.',d:['few','independent','Scottish'],ctx:1},
+ {id:'oil',en:'oil',de:'das Öl',t:'n',s:'Petrol for cars is made from ___.',d:['wind','fire','valley']},
+ {id:'gas',en:'gas',de:'das Gas',t:'n',s:'Many people cook or heat their homes with ___.',d:['monster','loch','kilt']},
+ {id:'wind',en:'wind',de:'der Wind',t:'n',s:'Hold your hat! The ___ is very strong today.',d:['oil','valley','tradition']},
+ {id:'inventor',en:'inventor',de:'der Erfinder, die Erfinderin',t:'n',s:'An ___ is a person who makes something completely new.',d:['island','event','industry'],ctx:1},
+ {id:'invent',en:'to invent',base:'invent',de:'erfinden',t:'v',s:'I want to ___ a robot that does my homework.',d:['travel','take place','take off']},
+ {id:'telephone',en:'telephone',de:'das Telefon',tp:'das Telefon (das lange Wort)',t:'n',s:'Can I use your ___? I need to call my mum.',d:['kilt','valley','fire']},
+ {id:'industry',en:'industry',de:'die Industrie',t:'n',s:'Many people have jobs in the oil ___.',d:['monster','midnight','hero'],ctx:1},
+ {id:'hogmanay',en:'Hogmanay',de:'die Silvesternacht in Schottland',tp:'die Silvesternacht in Schottland (das schottische Wort)',t:'x',cap:'Hogmanay',s:'In Scotland, the party on 31 December is called ___.',d:['low tide','bagpipes','loch']},
+ {id:'nye',en:'New Year’s Eve',base:"new year's eve",de:'die Silvesternacht',tp:'die Silvesternacht (3 Wörter, mit Apostroph)',t:'x',cap:"New Year's Eve",s:'31 December is ___.',d:['low tide','first footing','the English']},
+ {id:'firstfooting',en:'first footing',de:'schottischer Besuchsbrauch zum Jahreswechsel',tp:'schottischer Besuchsbrauch zum Jahreswechsel (2 Wörter)',t:'x',s:'After midnight on Hogmanay, people visit their neighbours with a present. This tradition is called ___.',d:['low tide','bagpipes','industry'],ctx:1},
+ {id:'midnight',en:'midnight',de:'die Mitternacht',t:'x',s:'The new year begins at ___ – at 12 o’clock at night.',d:['low tide','fire','valley'],ctx:1},
+ {id:'fire',en:'fire',de:'das Feuer',t:'n',s:'It was cold and dark, so we sat around the ___ to get warm.',d:['wind','oil','loch']},
+ {id:'loch',en:'loch',de:'der See in Schottland',tp:'der See – das schottische Wort',t:'n',s:'In Scotland, a lake is called a ___.',d:['kilt','valley','hero']},
+ {id:'monster',en:'monster',de:'das Monster, das Ungeheuer',t:'n',s:'A legend says that a ___ lives in Loch Ness.',d:['kilt','valley','telephone']},
+ {id:'valley',en:'valley',de:'das Tal',t:'n',s:'The village is down in a green ___ between two mountains.',d:['fire','wind','event'],ctx:1}
+];
+var WB = {}; W.forEach(function (w) { WB[w.id] = w; });
+function byEn(label) { /* Distraktor-Label -> Worteintrag */
+  var l = label.replace(/^the /, '').toLowerCase();
+  for (var i = 0; i < W.length; i++) { var b = (W[i].base || W[i].en).toLowerCase().replace(/^to /, '').replace(/^the /, ''); if (b === l) return W[i]; }
+  return null;
+}
+function typeTarget(w) { return (w.typeEn || w.base || w.en).toLowerCase().replace(/’/g, "'"); }
+function typeShow(w) { return w.typeEn || w.en; }
+function typeAccept(w) {
+  var t = typeTarget(w);
+  if (w.id === 'english') return ['the english'];
+  if (w.t === 'v') return SM.verb(t);
+  if (w.t === 'n') return w.pl || w.id === 'heroes' ? [t, 'the ' + t] : SM.noun(t);
+  return [t];
+}
+
+/* ---------- Schottlandwissen (Uebungsfragen, eigene Formulierungen) ---------- */
+var F = [
+ {q:'What is the capital of Scotland?',o:['Edinburgh','Glasgow','London','Cardiff'],x:'Edinburgh is the capital. Glasgow is another big city.'},
+ {q:'Which of these is another big city in Scotland?',o:['Glasgow','Dublin','London','Cardiff'],x:'Glasgow is a big Scottish city.'},
+ {q:'Scotland is part of …',o:['the United Kingdom (UK)','Ireland','the USA','France'],x:'Scotland is part of the United Kingdom.'},
+ {q:'About how many people live in Scotland? (your book)',o:['about 5.5 million','about 55 million','about 500,000','about 15 million'],x:'Your book says: about 5.5 million people.'},
+ {q:'How many islands does Scotland have?',o:['almost 800','almost 80','exactly 120','more than 8,000'],x:'Scotland has almost 800 islands.'},
+ {q:'How many of the islands are inhabited?',o:['fewer than 120','all of them','more than 700','only two'],x:'Fewer than 120 islands are inhabited – people live there.'},
+ {q:'Where do planes land on the island of Barra?',o:['on the beach','on a loch','on a mountain','on a bridge'],x:'On Barra, planes land and take off on the beach.'},
+ {q:'When can planes land on the beach on Barra?',o:['at low tide','at midnight','only on New Year’s Eve','only when it is windy'],x:'At low tide the sea is far out and the beach is big enough.'},
+ {q:'What is Ben Nevis?',o:['the highest mountain in the UK','a Scottish hero','a loch with a monster','an island'],x:'Ben Nevis is the highest mountain in the UK.'},
+ {q:'How high is Ben Nevis? (your book)',o:['1,345 metres','345 metres','2,345 metres','8,848 metres'],x:'Your book says: 1,345 metres.'},
+ {q:'What are the Highland Games?',o:['a sports event','a New Year’s Eve party','a boat trip','a museum'],x:'The Highland Games are a sports event – and a Scottish tradition.'},
+ {q:'Where do Highland Games take place?',o:['in Scotland and in other countries too','only in Edinburgh','only on islands','only at midnight'],x:'Highland Games also take place outside Scotland.'},
+ {q:'Who are two Scottish heroes?',o:['William Wallace and Robert the Bruce','Ben Nevis and Barra','Robin Hood and King Arthur','Loch Ness and Hogmanay'],x:'William Wallace and Robert the Bruce are Scottish heroes.'},
+ {q:'Which inventor does your book name together with the telephone (1876)?',o:['Alexander Graham Bell','William Wallace','Robert the Bruce','Ben Nevis'],x:'Your book names Alexander Graham Bell.'},
+ {q:'What is Hogmanay?',o:['New Year’s Eve in Scotland','a Scottish island','a sports event','a kind of kilt'],x:'Hogmanay is the Scottish word for New Year’s Eve.'},
+ {q:'What do people do at “first footing”?',o:['They visit friends or neighbours after midnight and bring a present.','They climb Ben Nevis at night.','They play the bagpipes on the beach.','They look for a monster in a loch.'],x:'After midnight people visit friends or neighbours with a present.'},
+ {q:'Why is Loch Ness famous?',o:['because of a legend about a monster','because of its beach airport','because of the Highland Games','because it is the capital'],x:'It is a legend: people tell stories about a monster in the loch.'},
+ {q:'Which three are important for Scotland in your book?',o:['oil, gas and wind','gold, silver and diamonds','coffee, tea and cocoa','sun, sand and palm trees'],x:'Oil, gas and wind energy are important.'}
+];
+
+/* ---------- Hilfsfunktionen ---------- */
+function h(tag, attrs, kids) {
+  var e = document.createElement(tag), k;
+  if (attrs) for (k in attrs) {
+    if (!Object.prototype.hasOwnProperty.call(attrs, k) || attrs[k] == null || attrs[k] === false) continue;
+    if (k === 'class') e.className = attrs[k];
+    else if (k === 'text') e.textContent = attrs[k];
+    else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
+  }
+  add(e, kids);
+  return e;
+}
+function add(e, kids) {
+  if (kids == null) return;
+  if (!Array.isArray(kids)) kids = [kids];
+  kids.forEach(function (c) { if (c == null || c === false) return; if (Array.isArray(c)) add(e, c); else e.appendChild(typeof c === 'object' ? c : document.createTextNode(String(c))); });
+}
+function svg(markup) { var d = document.createElement('div'); d.innerHTML = markup; return d.firstElementChild; } /* nur fuer fest eingebaute Grafiken */
+function rnd(n) {
+  try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; } catch (e) { return Math.floor(Math.random() * n); }
+}
+function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+function fmtTime(iso) { var d = new Date(iso); return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' Uhr'; }
+function mmss(sec) { sec = Math.max(0, Math.floor(sec)); return pad(Math.floor(sec / 60)) + ':' + pad(sec % 60); }
+function newId() { var c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = ''; for (var i = 0; i < 8; i++) s += c[rnd(c.length)]; return Date.now().toString(36).toUpperCase() + '-' + s; }
+
+/* ---------- Einstellungen aus dem Link ---------- */
+var CFG = { practice: 30, check: 15, feedback: 'full' };
+(function () {
+  try {
+    var p = new URLSearchParams(location.search), v;
+    v = parseInt(p.get('practice'), 10); if (v >= 1 && v <= 120) CFG.practice = v;
+    v = parseInt(p.get('check'), 10); if (v >= 1 && v <= 120) CFG.check = v;
+    v = p.get('feedback'); if (v === 'full' || v === 'score' || v === 'none') CFG.feedback = v;
+  } catch (e) {}
+})();
+
+/* ---------- Speicherung ---------- */
+var KEY = 'scotlandMission.v1', storageOK = false, saveFailed = false;
+function testStorage() { try { localStorage.setItem(KEY + '.t', '1'); var ok = localStorage.getItem(KEY + '.t') === '1'; localStorage.removeItem(KEY + '.t'); return ok; } catch (e) { return false; } }
+function freshPractice() { return { stars: 0, miss: {}, st: {} }; }
+var state = { v: 1, code: '', sound: false, calm: false, practice: freshPractice(), current: null, attempts: [] };
+function load() {
+  storageOK = testStorage();
+  if (!storageOK) return;
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.v === 1) {
+      state = s;
+      if (!state.practice || !state.practice.st) state.practice = freshPractice();
+      if (!Array.isArray(state.attempts)) state.attempts = [];
+    }
+  } catch (e) { saveFailed = true; }
+}
+function save() {
+  if (!storageOK) return;
+  try { localStorage.setItem(KEY, JSON.stringify(state)); if (saveFailed) { saveFailed = false; } }
+  catch (e) { if (!saveFailed) { saveFailed = true; renderTop(); } }
+}
+function storageBanner() {
+  if (storageOK && !saveFailed) return null;
+  return h('div', { class: 'banner noprint', role: 'alert' }, [
+    h('b', { text: 'Achtung: Speichern auf diesem Gerät funktioniert nicht. ' }),
+    'Vielleicht ist der private Modus an oder der Speicher voll. Wenn du die Seite neu lädst, sind deine Antworten weg. Sag deiner Lehrkraft Bescheid und lade nach dem Check sofort deine Ergebnisdatei herunter.'
+  ]);
+}
+
+/* ---------- Ton ---------- */
+var actx = null;
+function beep(kind) {
+  if (!state.sound) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    var seq = kind === 'ok' ? [660, 880] : kind === 'stamp' ? [523, 659, 784, 1046] : [220];
+    seq.forEach(function (f, i) {
+      var o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * 0.11;
+      o.frequency.value = f; o.type = 'sine'; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + 0.2);
+    });
+  } catch (e) {}
+}
+
+/* ---------- Kopfzeile ---------- */
+var $app = document.getElementById('app'), $top = document.getElementById('top'), view = '', timerInt = null;
+function renderTop() {
+  $top.textContent = '';
+  document.body.classList.toggle('calm', !!state.calm);
+  add($top, [
+    h('span', { class: 'brand', text: 'Scotland Mission' }),
+    state.code ? h('span', { class: 'pill', text: 'Code: ' + (state.current ? state.current.studentCode : state.code) }) : null,
+    state.code && !inCheck() ? h('span', { class: 'pill', title: 'Practice stars', text: '★ ' + state.practice.stars }) : null,
+    h('button', { class: 'tbtn', 'aria-pressed': state.sound ? 'true' : 'false', text: state.sound ? 'Sound on' : 'Sound off', title: 'Ton an/aus',
+      onclick: function () { state.sound = !state.sound; save(); renderTop(); beep('ok'); } }),
+    h('button', { class: 'tbtn', 'aria-pressed': state.calm ? 'true' : 'false', text: state.calm ? 'Motion off' : 'Motion on', title: 'Bewegungen an/aus',
+      onclick: function () { state.calm = !state.calm; save(); renderTop(); } }),
+    state.code && view !== 'map' && !inCheck() ? h('button', { class: 'tbtn', text: 'Map', onclick: function () { go('map'); } }) : null
+  ]);
+}
+function inCheck() { return view === 'check' || view === 'overview'; }
+function go(v, arg) {
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+  view = v;
+  $app.textContent = '';
+  renderTop();
+  add($app, storageBanner());
+  VIEWS[v](arg);
+  window.scrollTo(0, 0);
+}
+function modal(title, body, buttons) {
+  var ov = h('div', { class: 'overlay', role: 'dialog', 'aria-modal': 'true', 'aria-label': title });
+  var box = h('div', { class: 'modal' }, [h('h2', { text: title }), body]);
+  var row = h('div', { class: 'row end', style: 'margin-top:16px' }), born = Date.now();
+  buttons.forEach(function (b) {
+    row.appendChild(h('button', { class: 'btn ' + (b.cls || ''), text: b.label, onclick: function () { if (Date.now() - born < 400) return; if (ov.parentNode) ov.parentNode.removeChild(ov); if (b.fn) b.fn(); } }));
+  });
+  box.appendChild(row); ov.appendChild(box); document.body.appendChild(ov);
+  var f = row.querySelector('button'); if (f) f.focus();
+  return ov;
+}
+
+/* ---------- Illustrationen ---------- */
+function mapSvg() {
+  return svg('<svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrated map of Scotland with your route: Barra, Loch Ness, Glasgow and Edinburgh">' +
+  '<defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9f3"/><stop offset="1" stop-color="#9fcfe3"/></linearGradient>' +
+  '<linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fc58f"/><stop offset="1" stop-color="#5fa172"/></linearGradient></defs>' +
+  '<rect width="400" height="500" fill="url(#sea)"/>' +
+  '<g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"><path d="M20 60q6-6 12 0t12 0"/><path d="M330 150q6-6 12 0t12 0"/><path d="M30 330q6-6 12 0t12 0"/><path d="M330 430q6-6 12 0t12 0"/><path d="M60 440q6-6 12 0t12 0"/><path d="M200 40q6-6 12 0t12 0"/><path d="M345 300q6-6 12 0t12 0"/></g>' +
+  /* Festland */
+  '<path fill="url(#land)" stroke="#3d7a55" stroke-width="2.5" stroke-linejoin="round" d="M268 96 L225 92 L172 90 L152 112 L166 132 L140 150 L160 170 L132 186 L156 204 L128 226 L152 246 L124 268 L150 286 L128 312 L142 330 L128 352 L126 398 L140 402 L150 356 L172 342 L168 372 L176 404 L158 428 L150 452 L178 462 L232 446 L262 424 L302 388 L288 362 L252 350 L284 338 L296 318 L266 310 L302 290 L324 246 L332 198 L296 192 L262 196 L236 208 L252 178 L262 142 L278 108 Z"/>' +
+  /* Inseln */
+  '<g fill="#7dba86" stroke="#3d7a55" stroke-width="2" stroke-linejoin="round">' +
+  '<path d="M82 128 L96 136 L92 160 L80 176 L72 160 L76 140 Z"/><path d="M70 184 L82 188 L80 206 L68 212 L64 198 Z"/><path d="M62 220 L74 222 L72 238 L62 240 Z"/>' +
+  '<path d="M104 190 L126 186 L134 204 L120 222 L104 214 Z"/><path d="M108 262 L128 258 L130 278 L112 284 Z"/><path d="M96 322 L112 316 L116 338 L100 346 Z"/><path d="M148 366 L160 362 L162 384 L150 388 Z"/>' +
+  '<path d="M270 52 L290 48 L296 66 L280 76 L268 68 Z"/><path d="M296 40 L306 38 L308 50 L298 52 Z"/><path d="M344 8 L356 12 L354 36 L346 44 L340 26 Z"/></g>' +
+  /* Barra mit Strand */
+  '<path d="M52 250 L74 248 L80 266 L66 280 L50 272 Z" fill="#7dba86" stroke="#3d7a55" stroke-width="2" stroke-linejoin="round"/><path d="M50 272 L66 280 L80 266 L84 274 L66 290 L46 280 Z" fill="#f3dfa4" stroke="#c9a955" stroke-width="1.5" stroke-linejoin="round"/>' +
+  /* Berge */
+  '<g stroke="#4d5a68" stroke-width="1.5" stroke-linejoin="round"><path d="M160 276 L180 240 L200 276 Z" fill="#8d99a6"/><path d="M173 253 L180 240 L187 253 L180 249 Z" fill="#fff"/><path d="M190 190 L204 166 L218 190 Z" fill="#9aa5b1"/><path d="M196 140 L208 120 L220 140 Z" fill="#9aa5b1"/><path d="M270 240 L284 216 L298 240 Z" fill="#9aa5b1"/></g>' +
+  /* Loch Ness + Nessie */
+  '<path d="M196 248 L236 212 L242 218 L202 254 Z" fill="#2a7fb5" stroke="#1f5f8b" stroke-width="1.5" stroke-linejoin="round"/>' +
+  '<g fill="none" stroke="#1d5b3a" stroke-width="3.5" stroke-linecap="round"><path d="M212 236 q4-9 8 0"/><path d="M222 227 q4-9 8 0"/><path d="M231 219 q1-10 6-9"/></g><circle cx="237.5" cy="209.5" r="1.2" fill="#fff"/>' +
+  /* Route */
+  '<path d="M66 268 C120 300 170 262 238 250 S190 300 204 346 S240 356 262 342" fill="none" stroke="#b3372f" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>' +
+  /* Flugzeug */
+  '<g class="plane"><g transform="translate(26 236) rotate(18)"><path d="M0 6 L26 2 Q32 4 26 8 L0 10 Z" fill="#fff" stroke="#16324f" stroke-width="1.5"/><path d="M10 6 L16 -6 L20 -6 L18 6 Z M10 8 L16 20 L20 20 L18 8 Z M1 6 L-2 -1 L2 -1 L5 6 Z" fill="#b3372f" stroke="#16324f" stroke-width="1"/></g></g>' +
+  /* Burg Edinburgh + Fabrik Glasgow */
+  '<g transform="translate(262 318)" stroke="#16324f" stroke-width="1.5" stroke-linejoin="round"><path d="M0 22 V8 h4 v-4 h4 v4 h6 V0 h8 v8 h6 v-4 h4 v4 h4 v14 Z" fill="#c9b8a0"/><path d="M18 0 V-10 l8 3 -8 3" fill="#1f5f8b"/></g>' +
+  '<g transform="translate(188 322)" stroke="#16324f" stroke-width="1.5" stroke-linejoin="round"><path d="M0 20 V8 l8 5 V8 l8 5 V0 h6 v20 Z" fill="#b9a2c9"/></g>' +
+  /* Kompass */
+  '<g transform="translate(352 458)"><circle r="20" fill="#fffdf7" stroke="#16324f" stroke-width="2"/><path d="M0 -15 L5 0 L0 15 L-5 0 Z" fill="#b3372f" stroke="#16324f"/><text y="-23" text-anchor="middle" font-size="11" font-weight="700" fill="#16324f">N</text></g>' +
+  '<g font-family="Trebuchet MS,system-ui,sans-serif" font-size="12" fill="#16324f" font-weight="700" paint-order="stroke" stroke="#fffdf7" stroke-width="3">' +
+  '<text x="20" y="306">Barra</text><text x="244" y="230">Loch Ness</text><text x="124" y="296" font-size="10">Ben Nevis</text><text x="136" y="318">Glasgow</text><text x="296" y="352">Edinburgh</text>' +
+  '<text x="14" y="100" font-size="11" fill="#1f5f8b" font-style="italic">Atlantic Ocean</text><text x="318" y="110" font-size="11" fill="#1f5f8b" font-style="italic">North Sea</text><text x="34" y="150" font-size="9" fill="#1f5f8b">Outer</text><text x="26" y="161" font-size="9" fill="#1f5f8b">Hebrides</text></g>' +
+  /* Marker */
+  '<g font-family="Trebuchet MS,system-ui,sans-serif" font-weight="700" font-size="17" text-anchor="middle" fill="#fff">' +
+  '<g class="mk" data-go="s1" tabindex="0" role="button" aria-label="Station 1: Island Explorer"><circle cx="66" cy="264" r="24" fill="transparent"/><circle cx="66" cy="264" r="15" fill="#1f5f8b" stroke="#fff" stroke-width="3"/><text x="66" y="270">1</text></g>' +
+  '<g class="mk" data-go="s2" tabindex="0" role="button" aria-label="Station 2: Highland Detective"><circle cx="238" cy="250" r="24" fill="transparent"/><circle cx="238" cy="250" r="15" fill="#2f6b4f" stroke="#fff" stroke-width="3"/><text x="238" y="256">2</text></g>' +
+  '<g class="mk" data-go="s3" tabindex="0" role="button" aria-label="Station 3: Word Workshop"><circle cx="204" cy="350" r="24" fill="transparent"/><circle cx="204" cy="350" r="15" fill="#7a4b94" stroke="#fff" stroke-width="3"/><text x="204" y="356">3</text></g>' +
+  '<g class="mk" data-go="checkIntro" tabindex="0" role="button" aria-label="Final Check in Edinburgh"><circle cx="262" cy="360" r="24" fill="transparent"/><circle cx="262" cy="360" r="15" fill="#b3372f" stroke="#fff" stroke-width="3"/><path d="M257 368 V352 l11 4 -11 4" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></g>' +
+  '</g></svg>');
+}
+function thistle() {
+  return svg('<svg viewBox="0 0 60 80" width="54" height="72" aria-hidden="true"><path d="M30 78 V44" stroke="#2f6b4f" stroke-width="4" stroke-linecap="round"/><path d="M30 62 q-14-2-16-14 q12 0 16 14 M30 56 q14-2 16-14 q-12 0-16 14" fill="#2f6b4f"/><path d="M18 44 q12 10 24 0 l-2-12 h-20 Z" fill="#3d7a55" stroke="#1d5b3a" stroke-width="1.5"/><path d="M19 32 L14 8 L22 24 L24 4 L28 24 L30 2 L32 24 L36 4 L38 24 L46 8 L41 32 Z" fill="#7a4b94" stroke="#5c3572" stroke-width="1.5" stroke-linejoin="round"/></svg>');
+}
+
+/* ---------- Uebungs-Engine ---------- */
+var ST = {
+  s1: { n: 1, title: 'Island Explorer', place: 'Barra, Outer Hebrides', sub: 'Match words and answer quiz questions.', de: 'Wörter zuordnen und Quizfragen lösen', stamp: 'ISLAND EXPLORER', story: 'Your plane lands on the beach at low tide. Welcome to Barra! Explore the islands first.' },
+  s2: { n: 2, title: 'Highland Detective', place: 'Loch Ness & the Highlands', sub: 'Complete sentences and find out what words mean.', de: 'Sätze ergänzen und Wörter aus dem Zusammenhang erschließen', stamp: 'HIGHLAND DETECTIVE', story: 'You travel to the Highlands. Be a detective: look at the sentences and find the right words.' },
+  s3: { n: 3, title: 'Word Workshop', place: 'Glasgow', sub: 'Type the English words. Every letter counts!', de: 'Englische Wörter selbst tippen – jeder Buchstabe zählt', stamp: 'WORD WORKSHOP', story: 'In the Glasgow workshop you build words letter by letter. This is the best training for the Final Check.' }
+};
+function P() { return state.practice; }
+function stOf(sid) { var p = P(); if (!p.st[sid]) p.st[sid] = { queue: null, idx: 0, done: false, runs: 0, missed: [] }; return p.st[sid]; }
+function miss(id) { var m = P().miss; m[id] = (m[id] || 0) + 1; }
+function star() { P().stars++; renderTop(); }
+function chunk(a, sizes) { var out = [], i = 0; sizes.forEach(function (n) { out.push(a.slice(i, i + n)); i += n; }); return out; }
+
+function buildQueue(sid) {
+  var q = [];
+  if (sid === 's1') {
+    var ids = shuffle(W.filter(function (w) { return !w.nomatch; }).map(function (w) { return w.id; }));
+    var rounds = chunk(ids, [6, 6, 6, 5, 5, 5]), fs = shuffle(F.map(function (_, i) { return i; }));
+    rounds.forEach(function (r, i) { q.push({ k: 'match', ids: r }); fs.slice(i * 3, i * 3 + 3).forEach(function (fi) { q.push({ k: 'fact', i: fi }); }); });
+  } else if (sid === 's2') {
+    shuffle(W).forEach(function (w) { q.push({ k: w.ctx ? 'ctx' : 'gap', id: w.id }); });
+  } else if (sid === 's3') {
+    shuffle(W).forEach(function (w) { q.push({ k: 'type', id: w.id }); });
+  } else if (sid === 'tricky') {
+    shuffle(Object.keys(P().miss).filter(function (id) { return P().miss[id] > 0 && WB[id]; })).forEach(function (id) { q.push({ k: 'type', id: id, tricky: 1 }); });
+  }
+  return q;
+}
+function openStation(sid, restart) {
+  var st = stOf(sid);
+  if (restart || !st.queue || st.idx >= st.queue.length) { st.queue = buildQueue(sid); st.idx = 0; st.missed = []; st.finished = false; }
+  save();
+  go('station', sid);
+}
+function requeue(st, task) {
+  var r = (task.r || 0) + 1;
+  if (r > 2) return;
+  var c = {}; for (var k in task) c[k] = task[k];
+  c.r = r; st.queue.push(c);
+}
+
+var VIEWS = {};
+VIEWS.station = function (sid) {
+  var st = stOf(sid), meta = ST[sid] || { n: '★', title: 'Tricky Words', place: 'Extra training', sub: 'Practise the words you found difficult.', de: 'Deine schwierigen Wörter noch einmal tippen' };
+  var wrap = h('div', { class: 'card' }); $app.appendChild(wrap);
+
+  function finish() {
+    var first = !st.done && sid !== 'tricky';
+    st.done = true; st.runs = (st.runs || 0) + 1; st.queue = null; st.idx = 0; save();
+    wrap.textContent = '';
+    if (sid !== 'tricky') beep('stamp');
+    var allDone = stOf('s1').done && stOf('s2').done && stOf('s3').done;
+    add(wrap, [
+      h('h2', { text: sid === 'tricky' ? 'Well done!' : 'Station complete!' }),
+      sid !== 'tricky' ? h('div', { class: 'pass', style: 'margin:14px 0' }, [h('div', { class: 'stamp got pop g' + meta.n, text: meta.stamp }), h('p', { text: first ? 'You get a new stamp in your travel pass.' : 'You practised this station again. Great!' })]) : h('p', { text: 'You practised your tricky words.' }),
+      allDone && sid !== 'tricky' ? h('div', { class: 'fb ok' }, ['You are a real Scotland Explorer – all three stamps collected!', h('small', { text: 'Du hast alle drei Stationen geschafft.' })]) : null,
+      trickyCount() > 0 ? h('p', { class: 'de', text: 'Auf der Karte findest du „Tricky Words“: Dort übst du gezielt die Wörter, die noch schwierig waren (' + trickyCount() + ').' }) : null,
+      h('div', { class: 'row' }, [h('button', { class: 'btn go', text: 'Back to the map', onclick: function () { go('map'); } })])
+    ]);
+  }
+
+  function next() {
+    st.idx++;
+    if (st.idx >= st.queue.length && sid === 's1' && !st.finished) {
+      st.finished = true;
+      var m = st.missed.filter(function (id, i, a) { return a.indexOf(id) === i; });
+      if (m.length) {
+        var others = shuffle(W.filter(function (w) { return !w.nomatch && m.indexOf(w.id) === -1; }).map(function (w) { return w.id; }));
+        while (m.length < 4) m.push(others.pop());
+        chunk(m, m.length > 6 ? [Math.ceil(m.length / 2), Math.floor(m.length / 2)] : [m.length]).forEach(function (r) { st.queue.push({ k: 'match', ids: r, review: 1 }); });
+      }
+    }
+    save();
+    if (st.idx >= st.queue.length) finish(); else show();
+  }
+
+  function head(task) {
+    var total = st.queue.length, kinds = { match: 'Match the words · Ordne zu', fact: 'Scotland quiz', gap: 'Fill the gap · Welches Wort passt?', ctx: 'Word detective · Was bedeutet das Wort?', type: 'Type the English word · Tippe das englische Wort' };
+    return [
+      h('div', { class: 'taskhead' }, [h('h2', { text: (ST[sid] ? 'Station ' + meta.n + ': ' : '') + meta.title }), h('span', { class: 'de', text: (st.idx + 1) + ' / ' + total })]),
+      h('div', { class: 'bar', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(total), 'aria-valuenow': String(st.idx) }, h('i', { style: 'width:' + Math.round(st.idx / total * 100) + '%' })),
+      h('p', { class: 'de', text: kinds[task.k] + (task.review || task.r ? ' – Wiederholung' : '') })
+    ];
+  }
+  function nextBtn(label) {
+    var born = Date.now();
+    var b = h('button', { class: 'btn go', text: label || 'Next', onclick: function () { if (Date.now() - born < 350) return; if (b.disabled) return; b.disabled = true; next(); } });
+    b._born = born;
+    return b;
+  }
+
+  function show() {
+    wrap.textContent = '';
+    var task = st.queue[st.idx];
+    add(wrap, head(task));
+    ({ match: tMatch, fact: tFact, gap: tChoice, ctx: tChoice, type: tType })[task.k](task);
+  }
+
+  /* --- Zuordnen: erst links, dann rechts antippen (oder umgekehrt) --- */
+  function tMatch(task) {
+    var left = shuffle(task.ids), right = shuffle(task.ids), selL = null, selR = null, tried = {}, done = 0;
+    var bl = {}, br = {}, info = h('div', { class: 'fb info' }, ['Tap an English word, then tap its German meaning.', h('small', { text: 'Tippe erst ein englisches Wort an, dann die deutsche Bedeutung.' })]);
+    function refresh() {
+      task.ids.forEach(function (id) { bl[id].classList.toggle('sel', selL === id); br[id].classList.toggle('sel', selR === id); });
+    }
+    function tryPair() {
+      if (selL == null || selR == null) return;
+      var a = selL, b = selR; selL = selR = null;
+      if (a === b) {
+        bl[a].disabled = br[a].disabled = true; bl[a].classList.add('right'); br[a].classList.add('right');
+        if (!tried[a]) star();
+        beep('ok'); done++;
+        if (done === task.ids.length) { info.className = 'fb ok'; info.textContent = 'All pairs found. Well done!'; wrap.appendChild(h('div', { class: 'row end' }, nextBtn())); }
+      } else {
+        [a, b].forEach(function (id) { if (!tried[id]) { tried[id] = 1; miss(id); st.missed.push(id); } });
+        [bl[a], br[b]].forEach(function (e) { e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake'); });
+        info.className = 'fb no'; info.textContent = 'Not a pair. Try again!'; beep('no'); save();
+      }
+      refresh();
+    }
+    function mk(id, side) {
+      var w = WB[id];
+      return h('button', { class: 'opt', lang: side === 'L' ? 'en' : 'de', text: side === 'L' ? (w.men || w.en) : (w.mde || w.de), onclick: function () {
+        if (side === 'L') selL = selL === id ? null : id; else selR = selR === id ? null : id;
+        refresh(); tryPair();
+      } });
+    }
+    var cl = h('div', { class: 'col' }), cr = h('div', { class: 'col' });
+    left.forEach(function (id) { bl[id] = mk(id, 'L'); cl.appendChild(bl[id]); });
+    right.forEach(function (id) { br[id] = mk(id, 'R'); cr.appendChild(br[id]); });
+    add(wrap, [info, h('div', { class: 'matchgrid' }, [cl, cr])]);
+  }
+
+  /* --- Quizfrage mit vier Antworten --- */
+  function tFact(task) {
+    var f = F[task.i], opts = shuffle(f.o.map(function (t, i) { return { t: t, ok: i === 0 }; })), wrong = 0, solved = false;
+    var fb = h('div');
+    var grid = h('div', { class: 'opts two' }, opts.map(function (o) {
+      var b = h('button', { class: 'opt', text: o.t, onclick: function () {
+        if (solved || b.disabled) return;
+        if (o.ok) {
+          solved = true; b.classList.add('right'); beep('ok');
+          Array.prototype.forEach.call(grid.children, function (x) { x.disabled = true; });
+          if (!wrong) star(); else requeue(st, task);
+          fb.textContent = ''; add(fb, [h('div', { class: 'fb ok' }, ['Correct! ' + f.x]), h('div', { class: 'row end' }, nextBtn())]); save();
+        } else {
+          wrong++; b.disabled = true; b.classList.add('wrongo'); beep('no');
+          fb.textContent = ''; fb.appendChild(h('div', { class: 'fb no', text: 'Not quite. Try again!' }));
+        }
+      } });
+      return b;
+    }));
+    add(wrap, [h('p', { class: 'q', text: f.q }), grid, fb]);
+  }
+
+  /* --- Lueckensatz (gap) oder Bedeutung aus dem Zusammenhang (ctx), jeweils per Antippen --- */
+  function tChoice(task) {
+    var w = WB[task.id], isCtx = task.k === 'ctx', wrong = 0, hinted = false, solved = false;
+    var word = (w.base || w.en);
+    var parts = w.s.split('___'), gapEl = h('span', { class: 'gap', text: ' ' });
+    var sent = isCtx ? h('p', { class: 'q', lang: 'en' }, [parts[0], h('mark', { text: word }), parts[1]]) : h('p', { class: 'q', lang: 'en' }, [parts[0], gapEl, parts[1]]);
+    var choices = [{ t: isCtx ? w.de : word, ok: true }].concat(w.d.map(function (lab) { var dw = byEn(lab); return { t: isCtx ? (dw ? dw.de : lab) : lab, ok: false }; }));
+    var fb = h('div');
+    var grid = h('div', { class: 'opts two' }, shuffle(choices).map(function (o) {
+      var b = h('button', { class: 'opt', lang: isCtx ? 'de' : 'en', text: o.t, onclick: function () {
+        if (solved || b.disabled) return;
+        if (o.ok) {
+          solved = true; b.classList.add('right'); beep('ok'); if (!isCtx) gapEl.textContent = word;
+          Array.prototype.forEach.call(grid.children, function (x) { x.disabled = true; });
+          if (!wrong && !hinted) star();
+          if (wrong) { miss(w.id); requeue(st, task); }
+          hintBtn.disabled = true;
+          fb.textContent = ''; add(fb, [h('div', { class: 'fb ok' }, ['Correct! ', h('b', { lang: 'en', text: w.en }), ' = ' + w.de]), h('div', { class: 'row end' }, nextBtn())]); save();
+        } else {
+          wrong++; b.disabled = true; b.classList.add('wrongo'); beep('no');
+          fb.textContent = ''; fb.appendChild(h('div', { class: 'fb no' }, ['Not quite. Try again!', !isCtx ? h('small', { text: 'Tipp: Gesucht ist das Wort für „' + w.de + '“.' }) : h('small', { text: 'Tipp: Lies den ganzen Satz noch einmal.' })]));
+        }
+      } });
+      return b;
+    }));
+    var hintBtn = h('button', { class: 'btn alt small', text: 'Hint (Tipp)', onclick: function () {
+      if (solved) return; hinted = true; fb.textContent = '';
+      fb.appendChild(h('div', { class: 'fb info', text: isCtx ? 'Tipp: Schau auf die anderen Wörter im Satz. Was passt vom Sinn her?' : 'Tipp: Gesucht ist das Wort für „' + w.de + '“.' }));
+    } });
+    add(wrap, [isCtx ? h('p', { text: 'What does the yellow word mean in German?' }) : h('p', { text: 'Which word fits?' }), sent, grid, fb, h('div', { class: 'row', style: 'margin-top:10px' }, hintBtn)]);
+  }
+
+  /* --- Schreibtraining --- */
+  function tType(task) {
+    var w = WB[task.id], target = typeTarget(w), accept = typeAccept(w), tries = 0, hint = 0, shown = false, done = false, lastEval = 0, finalVal = '';
+    var input = h('input', { class: 'field', type: 'text', lang: 'en', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', enterkeyhint: 'done', 'aria-label': 'English word', id: 'typeIn' });
+    var fb = h('div'), ctrl = h('div', { class: 'row', style: 'margin-top:12px' });
+    var checkBtn = h('button', { class: 'btn', text: 'Check', onclick: evaluate });
+    var hintBtn = h('button', { class: 'btn alt small', text: 'Hint (Tipp)', onclick: function () {
+      if (done || shown) return; hint = Math.min(2, hint + 1); fb.textContent = ''; fb.appendChild(h('div', { class: 'fb info' }, hintLines(input.value))); input.focus();
+    } });
+    function pattern(val, level) {
+      var a = SM.key(val), out = '';
+      for (var i = 0; i < target.length; i++) {
+        var c = target[i];
+        if (c === ' ') out += '  '; else if (c === "'") out += '’';
+        else if (i === 0 || (level >= 2 && a[i] === c) || (level >= 2 && i % 3 === 0)) out += c; else out += '_';
+        out += ' ';
+      }
+      return out.replace(/\s+$/, '');
+    }
+    function hintLines(val) {
+      var words = target.split(' ').length, letters = target.replace(/[ ']/g, '').length;
+      return [h('span', { text: 'Tipp: ' + letters + ' Buchstaben' + (words > 1 ? ', ' + words + ' Wörter' : '') + '.' }), h('div', { class: 'hintpat', text: pattern(val, hint >= 2 || tries >= 2 ? 2 : 1) })];
+    }
+    function evaluate() {
+      var now = Date.now();
+      if (done) { return; }
+      if (now - lastEval < 300) return; /* schnelles Doppeltippen zaehlt nur einmal */
+      var val = input.value, k = SM.key(val);
+      if (k === '') { fb.textContent = ''; fb.appendChild(h('div', { class: 'fb info', text: 'Type the word first. (Tippe erst das Wort ein.)' })); input.focus(); return; }
+      lastEval = now;
+      fb.textContent = '';
+      if (accept.indexOf(k) !== -1) {
+        done = true; finalVal = input.value; checkBtn.disabled = true; hintBtn.disabled = true; beep('ok');
+        var clean = tries === 0 && hint === 0 && !shown;
+        if (clean) { star(); if (task.tricky && P().miss[w.id]) P().miss[w.id] = 0; }
+        else { if (!task.tricky || shown) requeue(st, task); }
+        var note = w.cap && SM.norm(val).indexOf(w.cap) === -1 ? 'Schreibhinweis: „' + w.cap.replace("'", '’') + '“ schreibt man groß.' : '';
+        var nb = nextBtn();
+        add(fb, [h('div', { class: 'fb ok' }, [shown ? 'Good – now you know it. This word comes back later.' : 'Correct! ', h('b', { lang: 'en', text: ' ' + typeShow(w) }), note ? h('small', { text: note }) : null]), h('div', { class: 'row end' }, nb)]);
+        save(); input.focus();
+        return;
+      }
+      tries++; beep('no');
+      if (tries === 1) miss(w.id);
+      var special = w.id === 'english' && k === 'english' ? 'Fast richtig – es sind zwei Wörter: the …'
+        : w.id === 'telephone' && k === 'phone' ? '„phone“ stimmt auch – hier üben wir aber das lange Wort.'
+        : w.id === 'loch' && k === 'lake' ? '„lake“ ist das allgemeine Wort. Gesucht ist das schottische Wort.'
+        : w.id === 'hero' && k === 'heroes' ? 'Das ist der Plural. Gesucht ist die Einzahl (ein Held).'
+        : w.id === 'heroes' && (k === 'hero' || k === 'heros') ? 'Gesucht ist der Plural (mehrere Helden). Achte auf die Endung -es.'
+        : w.id === 'nye' && k === 'hogmanay' ? 'Hogmanay ist das schottische Wort. Gesucht ist der allgemeine englische Ausdruck.'
+        : spellHelp(k, accept);
+      if (tries >= 3) {
+        shown = true; input.value = '';
+        add(fb, h('div', { class: 'fb no' }, ['The word is: ', h('b', { lang: 'en', class: 'hintpat', text: typeShow(w) }), h('small', { text: 'Schau es dir genau an und tippe es jetzt selbst ein. Das Wort kommt später noch einmal.' })]));
+      } else {
+        add(fb, h('div', { class: 'fb no' }, ['Not quite. Try again!', special ? h('small', { text: special }) : null, h('div', { style: 'margin-top:6px;font-weight:400' }, hintLines(val))]));
+      }
+      save(); input.focus();
+    }
+    input.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return; e.preventDefault(); if (e.repeat) return;
+      if (done) { var nb = fb.querySelector('.btn.go'); if (nb) nb.click(); } else evaluate();
+    });
+    input.addEventListener('input', function () { if (done) input.value = finalVal; });
+    input.addEventListener('focus', function () { setTimeout(function () { try { input.scrollIntoView({ block: 'center' }); } catch (e) {} }, 300); });
+    add(ctrl, [checkBtn, hintBtn]);
+    add(wrap, [h('label', { for: 'typeIn', class: 'q', lang: 'de', text: w.tp || w.de }), input, ctrl, fb]);
+    input.focus();
+  }
+
+  if (st.idx === 0 && ST[sid]) {
+    add(wrap, [h('p', { class: 'de', text: meta.place }), h('h2', { text: 'Station ' + meta.n + ': ' + meta.title }), h('p', { text: meta.story }), h('p', { class: 'de', text: meta.de }),
+      h('div', { class: 'row' }, [h('button', { class: 'btn go', text: 'Start', onclick: show })])]);
+  } else if (!st.queue.length) { finish(); } else show();
+};
+
+/* Hilfreiche Rueckmeldung zur Schreibweise (nur im Uebungsmodus) */
+function isSub(a, b) { var i = 0; for (var j = 0; j < b.length && i < a.length; j++) if (a[i] === b[j]) i++; return i === a.length; }
+function spellHelp(k, accept) {
+  for (var n = 0; n < accept.length; n++) {
+    var b = accept[n];
+    if (k.replace(/[\s-]/g, '') === b.replace(/\s/g, '') && b.indexOf(' ') !== -1) return 'Fast richtig – achte auf die Leerzeichen zwischen den Wörtern (kein Bindestrich).';
+    if (k.replace(/'/g, '') === b.replace(/'/g, '') && b.indexOf("'") !== -1) return 'Fast richtig – achte auf den Apostroph (’).';
+    if (k.length === b.length) {
+      var diff = []; for (var i = 0; i < b.length; i++) if (k[i] !== b[i]) diff.push(i);
+      if (diff.length === 1) return 'Fast richtig – ein Buchstabe ist falsch.';
+      if (diff.length === 2 && diff[1] === diff[0] + 1 && k[diff[0]] === b[diff[1]] && k[diff[1]] === b[diff[0]]) return 'Fast richtig – zwei Buchstaben sind vertauscht.';
+    }
+    if (k.length === b.length - 1 && isSub(k, b)) return 'Fast richtig – ein Buchstabe fehlt.';
+    if (k.length === b.length + 1 && isSub(b, k)) return 'Fast richtig – ein Buchstabe ist zu viel.';
+  }
+  return '';
+}
+function trickyCount() { var m = P().miss, n = 0; for (var k in m) if (m[k] > 0 && WB[k]) n++; return n; }
+
+/* ---------- Start ---------- */
+VIEWS.welcome = function () {
+  var input = h('input', { class: 'field', id: 'code', type: 'text', maxlength: '16', autocomplete: 'off', autocapitalize: 'characters', autocorrect: 'off', spellcheck: 'false', style: 'text-transform:uppercase;max-width:320px' });
+  var err = h('div');
+  function start() {
+    var c = input.value.trim().toUpperCase();
+    if (!/^[A-Z0-9][A-Z0-9_-]{1,15}$/.test(c)) { err.textContent = ''; err.appendChild(h('div', { class: 'fb no', text: 'Bitte gib den Code ein, den du von deiner Lehrkraft bekommen hast (2–16 Zeichen: Buchstaben, Zahlen, - oder _).' })); return; }
+    state.code = c; save(); go('map');
+  }
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); start(); } });
+  add($app, h('div', { class: 'card' }, [
+    h('div', { class: 'row' }, [thistle(), h('div', null, [h('h1', { text: 'Scotland Mission' }), h('p', { text: 'Trips in Scotland – travel, practise and write your mission report.' })])]),
+    h('p', { text: 'You are a young travel reporter. Visit three stations in Scotland and collect three stamps. Then go to Edinburgh for the Final Check.' }),
+    h('label', { for: 'code', text: 'Your code (dein Schülercode)' }), input,
+    h('p', { class: 'de', text: 'Gib nur deinen Code ein – nicht deinen Namen.' }), err,
+    h('div', { class: 'row', style: 'margin-top:10px' }, h('button', { class: 'btn go', text: 'Start the mission', onclick: start }))
+  ]));
+};
+
+/* ---------- Karte ---------- */
+VIEWS.map = function () {
+  var map = mapSvg();
+  Array.prototype.forEach.call(map.querySelectorAll('.mk'), function (g) {
+    var t = g.getAttribute('data-go');
+    function act() { if (t === 'checkIntro') go('checkIntro'); else openStation(t); }
+    g.addEventListener('click', act);
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+  function stCard(sid) {
+    var m = ST[sid], st = stOf(sid), status = st.done ? '✓ stamp' : (st.queue && st.idx > 0 ? st.idx + ' / ' + st.queue.length : '');
+    if (st.done && st.queue && st.idx > 0) status = '✓ · ' + st.idx + ' / ' + st.queue.length;
+    return h('button', { class: 'st ' + sid, onclick: function () {
+      if (st.done && !(st.queue && st.idx > 0 && st.idx < st.queue.length)) openStation(sid, true); else openStation(sid);
+    } }, [h('span', { class: 'num', text: String(m.n) }), h('span', null, [h('b', { text: m.title }), h('small', { text: m.sub })]), h('span', { class: 'state', text: status })]);
+  }
+  var tc = trickyCount();
+  var stations = h('div', { class: 'stations' }, [
+    h('div', { class: 'card', style: 'margin:0' }, [
+      h('h2', { text: 'Your travel pass' }),
+      h('div', { class: 'pass' }, ['s1', 's2', 's3'].map(function (s) { var d = stOf(s).done; return h('div', { class: 'stamp' + (d ? ' got g' + ST[s].n : ''), text: d ? ST[s].stamp : 'Station ' + ST[s].n }); })),
+      h('p', { class: 'de', text: 'Die Sterne (★) und Stempel sind nur zum Üben. Für den Final Check zählen sie nicht.' })
+    ]),
+    stCard('s1'), stCard('s2'), stCard('s3'),
+    tc > 0 ? h('button', { class: 'st tr', onclick: function () { openStation('tricky', true); } }, [h('span', { class: 'num', text: '★' }), h('span', null, [h('b', { text: 'Tricky Words' }), h('small', { text: 'Practise your difficult words again (' + tc + ').' })]), h('span', { class: 'state' })]) : null,
+    h('button', { class: 'st fin', onclick: function () { go('checkIntro'); } }, [h('span', { class: 'num', text: '⚑' }), h('span', null, [h('b', { text: 'Final Check' }), h('small', { text: 'Edinburgh – your mission report. Start only when your teacher says so.' })]), h('span', { class: 'state', style: 'color:var(--red)', text: state.attempts.length ? '✓ submitted' : '' })]),
+    h('details', { class: 'plan card', style: 'margin:0' }, [h('summary', { text: 'Plan for today (Stundenplan)' }),
+      h('p', { text: 'Intro: 5 min · Practice: ' + CFG.practice + ' min · Final Check: ' + CFG.check + ' min · Review: 10 min' }),
+      h('p', { class: 'de', text: 'Deine Lehrkraft sagt an, wann der Final Check beginnt. Du musst dafür nicht alle Stationen fertig haben.' }),
+      h('div', { class: 'row' }, h('button', { class: 'btn alt small', text: 'Change code (Code ändern)', onclick: changeCode }))])
+  ]);
+  add($app, [h('div', { class: 'maplay' }, [h('div', { class: 'mapbox' }, map), stations])]);
+};
+function changeCode() {
+  modal('Code ändern?', h('p', { text: 'Der Übungsfortschritt auf diesem Gerät wird zurückgesetzt. Bereits abgegebene Checks bleiben gespeichert.' }), [
+    { label: 'Abbrechen', cls: 'alt' },
+    { label: 'Code ändern', fn: function () { state.code = ''; state.practice = freshPractice(); save(); go('welcome'); } }
+  ]);
+}
+
+/* ---------- Abschlusscheck ---------- */
+var PARTS = [
+  { type: 'tr', label: 'Part A – Translate into English', de: 'Übersetze ins Englische.' },
+  { type: 'gap', label: 'Part B – Complete the sentence', de: 'Ergänze das fehlende Wort. Die deutsche Hilfe steht dabei.' },
+  { type: 'mc', label: 'Part C – Scotland facts', de: 'Tippe die richtige Antwort an. Nur eine Antwort ist richtig.' }
+];
+VIEWS.checkIntro = function () {
+  if (state.current) { go('check'); return; }
+  var prev = state.attempts.length;
+  add($app, h('div', { class: 'card' }, [
+    h('h1', { text: 'Final Check' }),
+    h('p', { text: 'Your mission report in Edinburgh: 20 tasks, 20 points. You work alone.' }),
+    h('h3', { text: 'So wird bewertet' }),
+    h('ul', { class: 'rules', lang: 'de' }, [
+      h('li', { text: '20 Aufgaben, je 1 Punkt: 12 Übersetzungen, 3 Lückensätze, 5 Fragen zum Antippen.' }),
+      h('li', { text: 'Im Check gibt es keine Tipps und keine Lösungen. Du arbeitest allein.' }),
+      h('li', { text: 'Bis zur Abgabe kannst du jede Antwort ändern.' }),
+      h('li', {}, [h('b', { text: 'Die Schreibweise zählt: ' }), 'Jeder Buchstabe muss stimmen. „Fast richtig“ gibt keinen Punkt.']),
+      h('li', { text: 'Groß- und Kleinschreibung kostet keinen Punkt. Du bekommst aber einen Hinweis, wenn ein Wort großgeschrieben wird (z. B. Scottish).' }),
+      h('li', { text: 'Egal sind: Leerzeichen am Anfang oder Ende, doppelte Leerzeichen, die Art des Apostrophs (\' oder ’) und ein Punkt am Ende.' }),
+      h('li', { text: 'Verben beim Übersetzen: mit oder ohne „to“ ist richtig (z. B. travel oder to travel).' }),
+      h('li', { text: 'Nomen beim Übersetzen: mit oder ohne Artikel ist richtig (z. B. valley oder the valley).' }),
+      h('li', { text: 'Im Lückensatz schreibst du nur das Wort, das in die Lücke passt.' }),
+      h('li', { text: 'Offene Aufgaben bekommen 0 Punkte.' }),
+      h('li', { text: 'Nach der Abgabe lädst du deine Ergebnisdatei herunter und gibst sie auf der Schulplattform ab.' })
+    ]),
+    h('p', { class: 'de', text: 'Geplante Zeit: ' + CFG.check + ' Minuten. Die Uhr läuft nur zur Orientierung.' }),
+    prev ? h('div', { class: 'banner' }, ['Auf diesem Gerät wurde schon ' + prev + '-mal abgegeben. Ein neuer Versuch bekommt eine neue Kennung; frühere Abgaben bleiben gespeichert. Starte nur neu, wenn deine Lehrkraft es sagt.']) : null,
+    h('div', { class: 'row' }, [
+      h('button', { class: 'btn hot', text: prev ? 'Start a new attempt' : 'Start the Final Check', onclick: function () {
+        if (!prev) { startAttempt(); return; }
+        modal('Neuen Versuch starten?', h('p', { text: 'Deine frühere Abgabe bleibt erhalten. Der neue Versuch wird als weiterer Versuch gekennzeichnet.' }), [{ label: 'Abbrechen', cls: 'alt' }, { label: 'Neuen Versuch starten', cls: 'hot', fn: startAttempt }]);
+      } }),
+      h('button', { class: 'btn alt', text: 'Back to the map', onclick: function () { go('map'); } })
+    ]),
+    prev ? h('div', { style: 'margin-top:16px' }, [h('h3', { text: 'Abgaben auf diesem Gerät' }),
+      state.attempts.map(function (a, i) { return h('div', { class: 'row', style: 'margin:6px 0' }, [h('span', { text: 'Versuch ' + a.no + ' · ' + a.studentCode + ' · ' + fmtTime(a.submittedAt) }), h('button', { class: 'btn alt small', text: 'Ansehen / Datei', onclick: function () { go('result', i); } })]); })]) : null
+  ]));
+};
+var starting = false;
+function startAttempt() {
+  if (state.current || starting) return;
+  starting = true;
+  var order = [];
+  PARTS.forEach(function (p) { order = order.concat(shuffle(SM.CHECK.filter(function (it) { return it.type === p.type; }).map(function (it) { return it.id; }))); });
+  var oo = {};
+  SM.CHECK.forEach(function (it) { if (it.type === 'mc') oo[it.id] = shuffle(it.options.map(function (o) { return o.id; })); });
+  var maxNo = 0; state.attempts.forEach(function (a) { if (a.no > maxNo) maxNo = a.no; });
+  state.current = { attemptId: newId(), no: maxNo + 1, studentCode: state.code, startedAt: new Date().toISOString(), order: order, optionOrders: oo, answers: {}, pos: 0 };
+  save(); starting = false;
+  go('check');
+}
+function answered(cur, id) { var v = cur.answers[id]; return v != null && SM.key(v) !== '' || (SM.BY_ID[id].type === 'mc' && !!v); }
+function timerEl(cur) {
+  var el = h('span', { class: 'pill', style: 'background:var(--navy);color:#fff' });
+  function tick() {
+    var sec = (Date.now() - Date.parse(cur.startedAt)) / 1000, plan = CFG.check * 60;
+    el.textContent = 'Time ' + mmss(sec) + ' / ' + mmss(plan);
+    if (sec > plan) { el.style.background = 'var(--red)'; el.textContent += ' – bitte zum Ende kommen'; }
+  }
+  tick(); timerInt = setInterval(tick, 1000);
+  return el;
+}
+VIEWS.check = function () {
+  var cur = state.current;
+  if (!cur) { go('checkIntro'); return; }
+  var card = h('div', { class: 'card' }); $app.appendChild(card);
+  var tEl = timerEl(cur);
+  function show(focus) {
+    card.textContent = '';
+    var id = cur.order[cur.pos], it = SM.BY_ID[id], part = PARTS.filter(function (p) { return p.type === it.type; })[0];
+    var body;
+    if (it.type === 'mc') {
+      var grid = h('div', { class: 'opts two', role: 'radiogroup' });
+      cur.optionOrders[id].forEach(function (oid) {
+        var b = h('button', { class: 'opt' + (cur.answers[id] === oid ? ' sel' : ''), role: 'radio', 'aria-checked': cur.answers[id] === oid ? 'true' : 'false', text: SM.optionText(it, oid), onclick: function () {
+          cur.answers[id] = cur.answers[id] === oid ? null : oid; save();
+          Array.prototype.forEach.call(grid.children, function (x) { x.classList.remove('sel'); x.setAttribute('aria-checked', 'false'); });
+          if (cur.answers[id] === oid) { b.classList.add('sel'); b.setAttribute('aria-checked', 'true'); }
+          dots();
+        } });
+        grid.appendChild(b);
+      });
+      body = [h('p', { class: 'q', lang: 'en', text: it.q }), grid];
+    } else {
+      var input = h('input', { class: 'field', id: 'ans', type: 'text', lang: 'en', maxlength: '80', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', enterkeyhint: 'next', value: cur.answers[id] || '' });
+      input.addEventListener('input', function () { cur.answers[id] = input.value; save(); dots(); });
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); if (e.repeat) return; move(1); } });
+      input.addEventListener('focus', function () { setTimeout(function () { try { input.scrollIntoView({ block: 'center' }); } catch (e) {} }, 300); });
+      body = it.type === 'tr'
+        ? [h('label', { for: 'ans', class: 'q', lang: 'de', text: it.de }), input]
+        : [h('p', { class: 'q', lang: 'en', text: it.sentence }), h('label', { for: 'ans', lang: 'de', text: 'Fehlendes Wort (' + it.de + ')' }), input];
+    }
+    var dotRow = h('div', { class: 'dots noprint', 'aria-label': 'Tasks' });
+    function dots() {
+      dotRow.textContent = '';
+      cur.order.forEach(function (qid, i) {
+        dotRow.appendChild(h('button', { class: 'dot' + (answered(cur, qid) ? ' a' : '') + (i === cur.pos ? ' cur' : ''), text: String(i + 1), 'aria-label': 'Task ' + (i + 1) + (answered(cur, qid) ? ' (answered)' : ' (open)'), onclick: function () { cur.pos = i; save(); show(true); } }));
+      });
+    }
+    dots();
+    add(card, [
+      h('div', { class: 'taskhead' }, [h('h2', { text: 'Final Check · Task ' + (cur.pos + 1) + ' of ' + cur.order.length }), tEl]),
+      h('p', { class: 'de' }, [h('b', { text: part.label }), ' – ' + part.de]),
+      body,
+      h('div', { class: 'row', style: 'margin-top:14px;justify-content:space-between' }, [
+        h('button', { class: 'btn alt', text: 'Back', disabled: cur.pos === 0, onclick: function () { move(-1); } }),
+        cur.pos < cur.order.length - 1 ? h('button', { class: 'btn', text: 'Next', onclick: function () { move(1); } }) : h('button', { class: 'btn hot', text: 'Overview & submit', onclick: function () { go('overview'); } })
+      ]),
+      dotRow,
+      h('div', { class: 'row end' }, h('button', { class: 'btn alt small', text: 'Overview & submit (Übersicht und Abgabe)', onclick: function () { go('overview'); } }))
+    ]);
+    if (focus) { var f = card.querySelector('#ans'); if (f) f.focus(); }
+  }
+  var lastMove = 0;
+  function move(d) {
+    var now = Date.now(); if (now - lastMove < 250) return; lastMove = now;
+    if (cur.pos + d >= cur.order.length) { go('overview'); return; }
+    cur.pos = Math.max(0, cur.pos + d); save(); show(true);
+  }
+  show(false);
+};
+VIEWS.overview = function () {
+  var cur = state.current;
+  if (!cur) { go('checkIntro'); return; }
+  var open = cur.order.filter(function (id) { return !answered(cur, id); });
+  var tb = h('tbody');
+  cur.order.forEach(function (id, i) {
+    var it = SM.BY_ID[id], a = cur.answers[id], isOpen = !answered(cur, id);
+    tb.appendChild(h('tr', { class: isOpen ? 'open' : '' }, [
+      h('td', { text: String(i + 1) }), h('td', { text: SM.promptText(it) }),
+      h('td', {}, isOpen ? h('span', { class: 'tag op', text: 'offen' }) : h('b', { text: it.type === 'mc' ? SM.optionText(it, a) : a })),
+      h('td', {}, h('button', { class: 'btn alt small', text: 'Edit', onclick: function () { cur.pos = i; save(); go('check'); } }))
+    ]));
+  });
+  var submitting = false;
+  function finalSubmit() {
+    if (submitting || !state.current) return;
+    submitting = true;
+    var c = state.current;
+    var rec = { attemptId: c.attemptId, no: c.no, studentCode: c.studentCode, startedAt: c.startedAt, submittedAt: new Date().toISOString(), order: c.order.slice(), optionOrders: c.optionOrders,
+      answers: c.order.map(function (id) { var v = c.answers[id]; return { id: id, raw: v == null ? null : String(v) }; }) };
+    state.attempts.push(rec); state.current = null; save();
+    go('result', state.attempts.length - 1);
+  }
+  add($app, h('div', { class: 'card' }, [
+    h('div', { class: 'taskhead' }, [h('h2', { text: 'Overview (Übersicht)' }), timerEl(cur)]),
+    open.length ? h('div', { class: 'banner', text: open.length + (open.length === 1 ? ' Aufgabe ist' : ' Aufgaben sind') + ' noch offen (gelb markiert).' }) : h('div', { class: 'fb ok', text: 'Alle 20 Aufgaben sind beantwortet. Lies deine Antworten noch einmal genau durch.' }),
+    h('table', { class: 'ovl' }, [h('thead', {}, h('tr', {}, [h('th', { text: '#' }), h('th', { text: 'Task' }), h('th', { text: 'Your answer' }), h('th', {})])), tb]),
+    h('div', { class: 'row', style: 'margin-top:14px;justify-content:space-between' }, [
+      h('button', { class: 'btn alt', text: 'Back to the tasks', onclick: function () { go('check'); } }),
+      h('button', { class: 'btn hot', id: 'submitBtn', text: 'Submit (Endgültig abgeben)', onclick: function () {
+        if (submitting || document.querySelector('.overlay')) return;
+        modal(open.length ? 'Mit offenen Aufgaben abgeben?' : 'Jetzt endgültig abgeben?',
+          h('p', { text: open.length ? open.length + (open.length === 1 ? ' Aufgabe ist' : ' Aufgaben sind') + ' noch offen und ' + (open.length === 1 ? 'bekommt' : 'bekommen') + ' 0 Punkte. Nach der Abgabe kannst du nichts mehr ändern.' : 'Nach der Abgabe kannst du nichts mehr ändern.' }),
+          [{ label: 'Zurück', cls: 'alt' }, { label: 'Ja, abgeben', cls: 'hot', fn: finalSubmit }]);
+      } })
+    ])
+  ]));
+};
+
+/* ---------- Ergebnis, Export, Druck ---------- */
+function exportObj(a) {
+  return {
+    format: SM.FORMAT, formatVersion: SM.FORMAT_VERSION, appVersion: SM.APP_VERSION, testVersion: SM.TEST_VERSION,
+    studentCode: a.studentCode, attemptId: a.attemptId, attemptNoOnDevice: a.no, startedAt: a.startedAt, submittedAt: a.submittedAt,
+    order: a.order, optionOrders: a.optionOrders,
+    answers: a.answers.map(function (x) { var it = SM.BY_ID[x.id], o = { id: x.id, raw: x.raw }; if (it.type === 'mc' && x.raw) o.choiceText = SM.optionText(it, x.raw); return o; })
+  };
+}
+function fileName(a) { return 'ScotlandMission_' + a.studentCode + '_' + a.attemptId + '.json'; }
+VIEWS.result = function (idx) {
+  var a = state.attempts[idx];
+  if (!a) { go('map'); return; }
+  var json = JSON.stringify(exportObj(a), null, 2), sc = SM.scoreAttempt(a.answers), mode = CFG.feedback, byId = {};
+  sc.items.forEach(function (x) { byId[x.id] = x; });
+  var msg = h('div');
+  function download() {
+    try {
+      var blob = new Blob([json], { type: 'application/json' }), url = URL.createObjectURL(blob);
+      var l = h('a', { href: url, download: fileName(a), style: 'display:none' }); document.body.appendChild(l); l.click();
+      setTimeout(function () { URL.revokeObjectURL(url); if (l.parentNode) l.parentNode.removeChild(l); }, 4000);
+      msg.textContent = ''; msg.appendChild(h('div', { class: 'fb ok' }, ['Datei „' + fileName(a) + '“ wurde zum Herunterladen bereitgestellt.', h('small', { text: 'Auf dem iPad: Tippe bei der Nachfrage auf „Laden“. Die Datei liegt dann in der App „Dateien“ im Ordner „Downloads“. Lade sie von dort auf der Schulplattform hoch.' })]));
+    } catch (e) { showText(); }
+  }
+  function share() {
+    try {
+      var file = new File([json], fileName(a), { type: 'application/json' });
+      navigator.share({ files: [file], title: 'Scotland Mission' }).catch(function () {});
+    } catch (e) { showText(); }
+  }
+  function showText() {
+    msg.textContent = '';
+    add(msg, [h('div', { class: 'fb info', text: 'Herunterladen klappt hier nicht. Markiere den ganzen Text im Feld, kopiere ihn und gib ihn so ab, wie deine Lehrkraft es sagt.' }), h('textarea', { class: 'field', style: 'font-size:.8rem;height:180px', readonly: true, text: json })]);
+  }
+  var canShare = false;
+  try { canShare = !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], 'x.json', { type: 'application/json' })] })); } catch (e) {}
+
+  var tb = h('tbody');
+  a.order.forEach(function (id, i) {
+    var it = SM.BY_ID[id], x = byId[id], shownAns = x.raw == null || x.raw === '' ? '—' : (it.type === 'mc' ? SM.optionText(it, x.raw) : x.raw);
+    var cells = [h('td', { text: String(i + 1) }), h('td', { text: SM.promptText(it) }), h('td', {}, h('b', { text: shownAns }))];
+    if (mode === 'full') {
+      cells.push(h('td', { text: SM.expectedText(it) }));
+      cells.push(h('td', {}, [h('span', { class: 'tag ' + (x.status === 'correct' ? 'ok' : x.status === 'open' ? 'op' : 'no'), text: x.status === 'correct' ? '✓ 1' : x.status === 'open' ? 'offen 0' : '✗ 0' }), x.note ? h('div', { class: 'de', text: x.note }) : null]));
+    }
+    tb.appendChild(h('tr', {}, cells));
+  });
+  var headCells = [h('th', { text: '#' }), h('th', { text: 'Aufgabe' }), h('th', { text: 'Deine Antwort' })];
+  if (mode === 'full') { headCells.push(h('th', { text: 'Lösung' })); headCells.push(h('th', { text: 'Punkte' })); }
+
+  add($app, [
+    h('div', { class: 'card noprint' }, [
+      h('h1', { text: 'Submitted – well done!' }),
+      h('p', { lang: 'de', text: 'Deine Abgabe ist auf diesem Gerät gespeichert. Jetzt fehlt noch die Abgabe bei deiner Lehrkraft:' }),
+      h('ol', { lang: 'de' }, [h('li', { text: 'Lade deine Ergebnisdatei herunter.' }), h('li', { text: 'Lade die Datei auf der Schulplattform hoch (so wie deine Lehrkraft es erklärt hat).' })]),
+      h('div', { class: 'row' }, [
+        h('button', { class: 'btn go', id: 'dlBtn', text: 'Download result file (Ergebnisdatei)', onclick: download }),
+        canShare ? h('button', { class: 'btn alt', text: 'Share file (Teilen)', onclick: share }) : null,
+        h('button', { class: 'btn alt', text: 'Print / save as PDF (Drucken)', onclick: function () { window.print(); } }),
+        h('button', { class: 'btn alt small', text: 'Datei als Text zeigen', onclick: showText })
+      ]), msg
+    ]),
+    h('div', { class: 'card' }, [
+      h('h2', { text: 'Scotland Mission – Final Check' }),
+      h('p', { lang: 'de', text: 'Code: ' + a.studentCode + ' · Versuch ' + a.no + ' auf diesem Gerät · Kennung: ' + a.attemptId }),
+      h('p', { lang: 'de', class: 'de', text: 'Start: ' + fmtTime(a.startedAt) + ' · Abgabe: ' + fmtTime(a.submittedAt) + ' · Testversion ' + SM.TEST_VERSION + ' · App ' + SM.APP_VERSION }),
+      mode !== 'none' ? h('div', { class: 'score' }, [
+        h('div', {}, [h('b', { text: sc.vocab + ' / ' + SM.MAX.vocab }), 'Wortschatz']),
+        h('div', {}, [h('b', { text: sc.facts + ' / ' + SM.MAX.facts }), 'Landeskunde']),
+        h('div', {}, [h('b', { text: sc.total + ' / ' + SM.MAX.total }), 'Gesamt'])
+      ]) : null,
+      h('p', { class: 'de', lang: 'de', text: mode === 'none' ? 'Die Auswertung bekommst du von deiner Lehrkraft.' : 'Vorläufiges Ergebnis. Deine Lehrkraft prüft die Abgabe und kann einzelne Punkte ändern.' }),
+      h('table', { class: 'ovl' }, [h('thead', {}, h('tr', {}, headCells)), tb])
+    ]),
+    h('div', { class: 'row noprint' }, h('button', { class: 'btn alt', text: 'Back to the map', onclick: function () { go('map'); } }))
+  ]);
+};
+
+/* ---------- Start der App ---------- */
+load();
+window.__SM_TEST__ = { W: W, F: F, typeAccept: typeAccept, typeTarget: typeTarget, byEn: byEn, state: function () { return state; } };
+if (state.current) go('check'); else if (!state.code) go('welcome'); else go('map');
+})();
+</script>
+</body>
+</html>
