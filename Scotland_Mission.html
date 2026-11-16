@@ -1053,6 +1053,8 @@ function exportObj(a) {
   };
 }
 function fileName(a) { return 'ScotlandMission_' + a.studentCode + '_' + a.attemptId + '.json'; }
+var GRADES = [[18, 20, 1, 'sehr gut'], [15, 17, 2, 'gut'], [12, 14, 3, 'befriedigend'], [9, 11, 4, 'ausreichend'], [4, 8, 5, 'mangelhaft'], [0, 3, 6, 'ungenügend']];
+function gradeFor(total) { for (var i = 0; i < GRADES.length; i++) if (total >= GRADES[i][0] && total <= GRADES[i][1]) return GRADES[i]; return null; }
 VIEWS.result = function (idx) {
   var a = state.attempts[idx];
   if (!a) { go('map'); return; }
@@ -1113,6 +1115,10 @@ VIEWS.result = function (idx) {
         h('div', {}, [h('b', { text: sc.vocab + ' / ' + SM.MAX.vocab }), 'Wortschatz']),
         h('div', {}, [h('b', { text: sc.facts + ' / ' + SM.MAX.facts }), 'Landeskunde']),
         h('div', {}, [h('b', { text: sc.total + ' / ' + SM.MAX.total }), 'Gesamt'])
+      ]) : null,
+      mode !== 'none' && gradeFor(sc.total) ? h('div', { class: 'fb ok', style: 'font-size:1.15rem' }, [
+        'Note: ' + gradeFor(sc.total)[2] + ' (' + gradeFor(sc.total)[3] + ')',
+        h('small', { text: 'Gesamtpunkte ' + sc.total + ' von ' + SM.MAX.total + '. Das ist die Note aus dem Check. Deine Lehrkraft kann einzelne Punkte noch ändern.' })
       ]) : null,
       h('p', { class: 'de', lang: 'de', text: mode === 'none' ? 'Die Auswertung bekommst du von deiner Lehrkraft.' : 'Vorläufiges Ergebnis. Deine Lehrkraft prüft die Abgabe und kann einzelne Punkte ändern.' }),
       h('table', { class: 'ovl' }, [h('thead', {}, h('tr', {}, headCells)), tb])
