@@ -1097,15 +1097,11 @@ VIEWS.result = function (idx) {
 
   add($app, [
     h('div', { class: 'card noprint' }, [
-      h('h1', { text: 'Submitted – well done!' }),
-      h('p', { lang: 'de', text: 'Deine Abgabe ist auf diesem Gerät gespeichert. Jetzt fehlt noch die Abgabe bei deiner Lehrkraft:' }),
-      h('ol', { lang: 'de' }, [h('li', { text: 'Lade deine Ergebnisdatei herunter.' }), h('li', { text: 'Lade die Datei auf der Schulplattform hoch (so wie deine Lehrkraft es erklärt hat).' })]),
+      h('h1', { text: 'Fertig – well done!' }),
+      h('p', { lang: 'de', text: 'Melde dich bei deiner Lehrkraft und zeige ihr deine Punkte und deine Note. Dein Ergebnis steht unten auf dem Bildschirm.' }),
       h('div', { class: 'row' }, [
-        h('button', { class: 'btn go', id: 'dlBtn', text: 'Download result file (Ergebnisdatei)', onclick: download }),
-        canShare ? h('button', { class: 'btn alt', text: 'Share file (Teilen)', onclick: share }) : null,
-        h('button', { class: 'btn alt', text: 'Print / save as PDF (Drucken)', onclick: function () { window.print(); } }),
-        h('button', { class: 'btn alt small', text: 'Datei als Text zeigen', onclick: showText })
-      ]), msg
+        h('button', { class: 'btn alt', text: 'Zurück zur Karte', onclick: function () { go('map'); } })
+      ])
     ]),
     h('div', { class: 'card' }, [
       h('h2', { text: 'Scotland Mission – Final Check' }),
